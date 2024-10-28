@@ -1,0 +1,190 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: eb65875499a34324b09c1e3627797b1c
+      template: 'Template Fortigate Sensor SNMP'
+      name: 'Template Fortigate Sensor SNMP'
+      groups:
+        - name: Templates
+      items:
+        - uuid: 1827d613a2994f058a9f3cd5c4df29d2
+          name: 'Sensor [PSU [1]] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.1
+          key: 'fgHwSensorEntValue["PSU [1]"]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: 54d08bab56894709b8e2c16eb27326d9
+          name: 'Sensor [PSU [2]] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.2
+          key: 'fgHwSensorEntValue["PSU [2]"]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: da6e0346e0504db2a706cbaed5215494
+          name: 'Sensor [FAN 1  CPU FAN] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.3
+          key: 'fgHwSensorEntValue[FAN 1  CPU FAN]'
+          value_type: FLOAT
+          trends: '0'
+          units: RPM
+          triggers:
+            - uuid: e0eff8e38f9947fca986d1d368e81f93
+              expression: 'avg(/Template Fortigate Sensor SNMP/fgHwSensorEntValue[FAN 1  CPU FAN],5)<7296 or avg(/Template Fortigate Sensor SNMP/fgHwSensorEntValue[FAN 1  CPU FAN],5)>16417'
+              name: 'Sensot [FAN 1 CPU] value is out of Tresholds'
+              priority: HIGH
+        - uuid: 7cb171b62e9440389cdb86d993aee52d
+          name: 'Sensor [FAN 2  SYS FAN] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.4
+          key: 'fgHwSensorEntValue[FAN 2  SYS FAN]'
+          value_type: FLOAT
+          trends: '0'
+          units: RPM
+        - uuid: cae219893d5e4d4bb689b140963ab472
+          name: 'Sensor [FAN 3  AUX2 FAN] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.5
+          key: 'fgHwSensorEntValue[FAN 3  AUX2 FAN]'
+          value_type: FLOAT
+          trends: '0'
+          units: RPM
+        - uuid: 2673f6fdc3e9469e8f776c823fc4c0f3
+          name: 'Sensor [MV1680 1] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.18
+          key: 'fgHwSensorEntValue[MV1680 1]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: 05f53a4673714c5ebaaad90bcc06cdc2
+          name: 'Sensor [MV1680 2] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.19
+          key: 'fgHwSensorEntValue[MV1680 2]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: 5ecf0dfbb3de45ea807139235ea65095
+          name: 'Sensor [TMP 1  CPUTIN] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.16
+          key: 'fgHwSensorEntValue[TMP 1  CPUTIN]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: d5ad24e9b3b9421c9882f425edf6055c
+          name: 'Sensor [TMP 2  PECI] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.17
+          key: 'fgHwSensorEntValue[TMP 2  PECI]'
+          value_type: FLOAT
+          trends: '0'
+          units: °C
+        - uuid: a6c0e4b54d1646d58078d34c78d88fa8
+          name: 'Sensor [VOL 1  VCORE] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.6
+          key: 'fgHwSensorEntValue[VOL 1  VCORE]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 75b2870e459140b4ab3c6df83e478316
+          name: 'Sensor [VOL 2  P1V05_VCCSCUS] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.7
+          key: 'fgHwSensorEntValue[VOL 2  P1V05_VCCSCUS]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 29fddfb1e9ba4bb79784196fd275801c
+          name: 'Sensor [VOL 3  P1V2_VDDQ] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.8
+          key: 'fgHwSensorEntValue[VOL 3  P1V2_VDDQ]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 97baf3dc5b0b4204be0aa9a28963cec3
+          name: 'Sensor [VOL 4  P1V0_CORE_SW] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.9
+          key: 'fgHwSensorEntValue[VOL 4  P1V0_CORE_SW]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: acecccfb477c487a8235cfd78d1abdf8
+          name: 'Sensor [VOL 5  P1V0_SOC4] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.10
+          key: 'fgHwSensorEntValue[VOL 5  P1V0_SOC4]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 57a2488446404b5bb09c06d869554239
+          name: 'Sensor [VOL 6  P1V05] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.11
+          key: 'fgHwSensorEntValue[VOL 6  P1V05]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 7e91d526635b4f6e9e5bf2d0a7cfe821
+          name: 'Sensor [VOL 7  P3V3_STBY_A] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.12
+          key: 'fgHwSensorEntValue[VOL 7  P3V3_STBY_A]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: fe21bb04a27e4847893a3bf4c1772c0e
+          name: 'Sensor [VOL 8  P3V3_STBY] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.13
+          key: 'fgHwSensorEntValue[VOL 8  P3V3_STBY]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: fa0570e253074386829a04b3e6f9f4d2
+          name: 'Sensor [VOL 9  P3V3_PCH] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.14
+          key: 'fgHwSensorEntValue[VOL 9  P3V3_PCH]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+        - uuid: 32bb99548c7d48349eac33312a25879f
+          name: 'Sensor [VOL 10 VBAT] Value'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.3.2.1.3.15
+          key: 'fgHwSensorEntValue[VOL 10 VBAT]'
+          value_type: FLOAT
+          trends: '0'
+          units: V
+  graphs:
+    - uuid: b5d5c3ddd4214a8aaa36b6e4ea05f5b2
+      name: FanSpeed
+      graph_items:
+        - color: 199C0D
+          calc_fnc: ALL
+          item:
+            host: 'Template Fortigate Sensor SNMP'
+            key: 'fgHwSensorEntValue[FAN 1  CPU FAN]'
+        - sortorder: '1'
+          color: F63100
+          calc_fnc: ALL
+          item:
+            host: 'Template Fortigate Sensor SNMP'
+            key: 'fgHwSensorEntValue[FAN 2  SYS FAN]'
+        - sortorder: '2'
+          color: 2774A4
+          calc_fnc: ALL
+          item:
+            host: 'Template Fortigate Sensor SNMP'
+            key: 'fgHwSensorEntValue[FAN 3  AUX2 FAN]'

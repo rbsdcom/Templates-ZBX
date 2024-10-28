@@ -1,0 +1,161 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 6b16146bfcbe47369f5ead09ae3b178a
+      template: 'Template Fortinet-FortiGate SNMP HA-SSL'
+      name: 'Template Fortinet-FortiGate SNMP HA-SSL'
+      groups:
+        - name: Templates
+      items:
+        - uuid: 7c1a71fdb16c4d3f9727b6fa0b8b1233
+          name: 'Physical Memory GB'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.1.5.0
+          key: fgSysMemCapacity
+          value_type: FLOAT
+          units: b
+        - uuid: 00b7a48dee4744dcaaecc14fbbbe0898
+          name: 'Memory Utilization %'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.4.1.12356.101.4.1.4.0
+          key: fgSysMemoryUtilization
+          value_type: FLOAT
+          units: '%'
+      discovery_rules:
+        - uuid: d129e966ee5445fa9610a0cccde46062
+          name: 'FW HA Stats'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.12356.101.13.2.1.1.11]'
+          key: fgHAStats
+          delay: 1h
+          lifetime: 30d
+          item_prototypes:
+            - uuid: 40e237d330fd4d6ea954ba05c4e8403e
+              name: 'FW HA Av Count [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.10.{#SNMPINDEX}'
+              key: 'fgHaStatsAVCount[{#SNMPVALUE}]'
+              value_type: FLOAT
+            - uuid: c2eced86e8e24889a2ac5f6ed8afb7c3
+              name: 'FW HA CPU Usage % [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.3.{#SNMPINDEX}'
+              key: 'fgHaStatsCPU[{#SNMPVALUE}]'
+              value_type: FLOAT
+              units: '%'
+              trigger_prototypes:
+                - uuid: 23975acf5fb54b84b97e54e34f6e42b2
+                  expression: 'avg(/Template Fortinet-FortiGate SNMP HA-SSL/fgHaStatsCPU[{#SNMPVALUE}],5)>=85'
+                  name: 'FW HA CPU Usage % [{#SNMPVALUE}]'
+                  priority: HIGH
+            - uuid: 89975030425246f7be782cd9d8696722
+              name: 'FW HA Host Name [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.11.{#SNMPINDEX}'
+              key: 'fgHaStatsHostname[{#SNMPVALUE}]'
+              value_type: CHAR
+              trends: '0'
+            - uuid: 433938a208ed4f2db5a65a3e4f90da49
+              name: 'FW HA MEM Usage % [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.4.{#SNMPINDEX}'
+              key: 'fgHaStatsMEM[{#SNMPVALUE}]'
+              value_type: FLOAT
+              units: '%'
+              trigger_prototypes:
+                - uuid: 907e6da6a3234df58dacba6555d8942a
+                  expression: 'avg(/Template Fortinet-FortiGate SNMP HA-SSL/fgHaStatsMEM[{#SNMPVALUE}],5)>85'
+                  name: 'FW HA MEM Usage % [{#SNMPVALUE}]'
+                  priority: HIGH
+            - uuid: 91e4c930a8bf4b689c93a6c06065995c
+              name: 'FW HA Net Usage [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.5.{#SNMPINDEX}'
+              key: 'fgHaStatsNet[{#SNMPVALUE}]'
+              value_type: FLOAT
+              units: b
+            - uuid: 2fbf40c5c7884dd19d490aa9e3d7d1f8
+              name: 'FW HA Sync Status [{#SNMPINDEX}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.13.2.1.1.12.{#SNMPINDEX}'
+              key: 'fgHaStatsSyncStatus[{#SNMPVALUE}]'
+              value_type: CHAR
+              trends: '0'
+          graph_prototypes:
+            - uuid: 947c4b4528744040a5a2609528b28fe9
+              name: 'CPU Usage in %  [{#SNMPVALUE}]'
+              graph_items:
+                - color: 199C0D
+                  calc_fnc: ALL
+                  item:
+                    host: 'Template Fortinet-FortiGate SNMP HA-SSL'
+                    key: 'fgHaStatsCPU[{#SNMPVALUE}]'
+        - uuid: dd763f6a664b481e9f1138d998e403f6
+          name: 'FW Sensor'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.12356.101.4.3.2.1.2]'
+          key: fgHwSensor
+          delay: 1h
+          status: DISABLED
+          item_prototypes:
+            - uuid: 048bfa7e223c4bbbb6911e29a3908cf5
+              name: 'Sensor Indicators [{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.4.3.2.1.2.{#SNMPINDEX}'
+              key: 'fgHwSensorEntName[{#SNMPVALUE}]'
+              value_type: CHAR
+              trends: '0'
+            - uuid: 0e555cf391334a1dbdfeaab7a513b4d3
+              name: 'Sensor [{#SNMPVALUE}] Value'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.4.3.2.1.3.{#SNMPINDEX}'
+              key: 'fgHwSensorEntValue[{#SNMPVALUE}]'
+              value_type: FLOAT
+              trends: '0'
+        - uuid: 61e31a5dcd4f4c3497240100e1ac6078
+          name: 'VPN SSL Tunnel User'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#SNMPVALUE},.1.3.6.1.4.1.12356.101.12.2.4.1.3]'
+          key: fgVpnSslUser
+          delay: 1h
+          lifetime: 30d
+          enabled_lifetime_type: DISABLE_AFTER
+          enabled_lifetime: 12h
+          item_prototypes:
+            - uuid: d7c6a4c7cf7f4cd48a72379e445b1db1
+              name: 'VPN SSL Tunnel Bits IN [{#SNMPINDEX},{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.12.2.4.1.7.{#SNMPINDEX}'
+              key: 'fgVpnSslTunnelBitsIN[{#SNMPVALUE}]'
+              units: b
+            - uuid: 04d8b82cfee84f14996a75708a12edd5
+              name: 'VPN SSL Tunnel Bits Out [{#SNMPINDEX},{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.12.2.4.1.8.{#SNMPINDEX}'
+              key: 'fgVpnSslTunnelBitsIOut[{#SNMPVALUE}]'
+              value_type: FLOAT
+              units: b
+            - uuid: eadc57ba88cf465ba0a4a8179bf05290
+              name: 'VPN SSL Tunnel IP Tunel  [{#SNMPINDEX},{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.12.2.4.1.5.{#SNMPINDEX}'
+              key: 'fgVpnSslTunnelIPTunel[{#SNMPVALUE}]'
+              value_type: CHAR
+              trends: '0'
+            - uuid: 19b43463301345dd8c6ecd2e200fdf38
+              name: 'VPN SSL Tunnel Session UpTime [{#SNMPINDEX},{#SNMPVALUE}]'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.12.2.4.1.6.{#SNMPINDEX}'
+              key: 'fgVpnSslTunnelUpTime[{#SNMPVALUE}]'
+              value_type: FLOAT
+              units: s
+            - uuid: cadb7cd23e074b3daf20f6d112382bdc
+              name: 'VPN SSL Tunnel User {#SNMPINDEX}'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.4.1.12356.101.12.2.4.1.3.{#SNMPINDEX}'
+              key: 'fgVpnSslTunnelUSerName[{#SNMPVALUE}]'
+              value_type: CHAR
+              trends: '0'
